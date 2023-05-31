@@ -29,3 +29,38 @@ INSERT INTO season_table (season)
 SELECT 
     playoff_stat.season
 FROM playoff_stat;
+
+--creating temp table for games
+CREATE TABLE IF NOT EXISTS games_table (
+    games_played,
+    games_started, 
+    UniqueID INTEGER,
+    FOREIGN KEY(UniqueID) REFERENCES player_table(UniqueID)
+);
+
+--Inserting into games table (games played and games gtarted)
+INSERT INTO games_table (games_played, games_started,UniqueID)
+SELECT 
+    playoff_stat.g,
+    playoff_stat.gs,
+    player_table.UniqueID
+FROM playoff_stat, player_table
+WHERE playoff_stat.player = player_table.player
+
+
+-- --creating temp table for composite table
+CREATE TABLE IF NOT EXISTS composite_table (
+    season_id INTEGER,
+    UniqueID INTEGER,
+    FOREIGN KEY(season_id) REFERENCES season_table(season_id),
+    FOREIGN KEY(UniqueID) REFERENCES player_table(UniqueID),
+    PRIMARY KEY (season_id, UniqueID)
+
+);
+
+--Insert into composite table
+
+
+
+
+
